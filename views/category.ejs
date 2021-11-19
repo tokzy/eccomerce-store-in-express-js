@@ -1,4 +1,4 @@
-<%- include('templates/header'); %>
+<%- include('templates/header'); -%>
 <!--================Home Banner Area =================-->
 <section class="banner_area">
 <div class="banner_inner d-flex align-items-center">
@@ -340,27 +340,11 @@ alt=""
 </div>
 <div class="widgets_inner">
 <ul class="list">
+<% categories.forEach((category) => { %>
 <li>
-<a href="#">Frozen Fish</a>
+<a href="category/<%= category.id %>"><%= category.name %></a>
 </li>
-<li>
-<a href="#">Dried Fish</a>
-</li>
-<li>
-<a href="#">Fresh Fish</a>
-</li>
-<li>
-<a href="#">Meat Alternatives</a>
-</li>
-<li>
-<a href="#">Fresh Fish</a>
-</li>
-<li>
-<a href="#">Meat Alternatives</a>
-</li>
-<li>
-<a href="#">Meat</a>
-</li>
+<% })%>
 </ul>
 </div>
 </aside>
