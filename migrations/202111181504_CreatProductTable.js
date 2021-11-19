@@ -43,13 +43,11 @@ module.exports = {
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DataTypes.DATE,
-        defaultValue: DataTypes.NOW 
+        type: Sequelize.DataTypes.DATE
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DataTypes.DATE,
-        defaultValue: DataTypes.NOW 
+        type: Sequelize.DataTypes.DATE
       }
       
     })

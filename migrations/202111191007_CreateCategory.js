@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Products', {
+    return queryInterface.createTable('Category', {
       id: {
         allowNull: false,
         primaryKey: true,
@@ -14,18 +14,16 @@ module.exports = {
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DataTypes.DATE,
-        defaultValue: DataTypes.NOW 
+        type: Sequelize.DataTypes.DATE
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DataTypes.DATE,
-        defaultValue: DataTypes.NOW 
+        type: Sequelize.DataTypes.DATE
       }
       
     })
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Products');
+    return queryInterface.dropTable('Category');
   }
 };
