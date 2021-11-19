@@ -14,7 +14,8 @@ module.exports = {
       },
       status: {
       	allowNull: false,
-      	type: Sequelize.DataTypes.DECIMAL(10,2)
+      	type: Sequelize.DataTypes.BOOLEAN,
+        defaultValue: true
       },
       name: {
       	allowNull: false,
@@ -22,6 +23,10 @@ module.exports = {
       },
       price: {
       	allowNull: false,
+      	type: Sequelize.DataTypes.DECIMAL(10,2)
+      },
+      discount: {
+      	allowNull:true,
       	type: Sequelize.DataTypes.DECIMAL(10,2)
       },
       cover_image: {
@@ -38,11 +43,13 @@ module.exports = {
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DataTypes.DATE
+        type: Sequelize.DataTypes.DATE,
+        defaultValue: DataTypes.NOW 
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DataTypes.DATE
+        type: Sequelize.DataTypes.DATE,
+        defaultValue: DataTypes.NOW 
       }
       
     })
