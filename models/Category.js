@@ -22,7 +22,11 @@ module.exports = (sequelize, DataTypes) => {
     allowNull: false,
     type:DataTypes.DATE,
     defaultValue: DataTypes.NOW
-  },
-  });
+  }
+},
+  {
+    freezeTableName: true,
+    tableName: "Category"
+});
   return Category;
 };
