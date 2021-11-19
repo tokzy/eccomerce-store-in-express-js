@@ -1,10 +1,7 @@
-const { Sequelize, DataTypes, Model } = require('sequelize');
-const sequelize = new Sequelize('sqlite::memory:');
-
-class Category extends Model {}
-
-Category.init({
-  // Model attributes are defined here
+'use strict';
+module.exports = (sequelize, DataTypes) => {
+  var Category = sequelize.define('Category', {
+    // Model attributes are defined here
   id: {
     allowNull: false,
     primaryKey: true,
@@ -25,12 +22,7 @@ Category.init({
     allowNull: false,
     type:DataTypes.DATE,
     defaultValue: DataTypes.NOW
-  }
-  
-}, {
-  // Other model options go here
-  sequelize, // We need to pass the connection instance
-  modelName: 'Category', // We need to choose the model name
-  freezeTableName: true,
-  tableName: 'Category'
-});
+  },
+  });
+  return Category;
+};
