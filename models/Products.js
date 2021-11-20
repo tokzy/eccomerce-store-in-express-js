@@ -12,6 +12,10 @@ module.exports = (sequelize, DataTypes) => {
       	allowNull: true,
       	type: DataTypes.INTEGER
       },
+      brand_id: {
+      	allowNull: true,
+      	type: DataTypes.INTEGER
+      },
       status: {
       	allowNull: false,
       	type: DataTypes.BOOLEAN,

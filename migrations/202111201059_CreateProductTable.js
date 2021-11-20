@@ -1,18 +1,13 @@
+'use strict';
 module.exports = {
-    up: (queryInterface, Sequelize) => {
-      return queryInterface.sequelize.transaction(t => {
-        return Promise.all([
-          queryInterface.addColumn('brand_id', {
-            type: Sequelize.DataTypes.INTEGER
-          }, { transaction: t })
-        ]);
-      });
-    },
-    down: (queryInterface, Sequelize) => {
-      return queryInterface.sequelize.transaction(t => {
-        return Promise.all([
-          queryInterface.removeColumn('brand_id', { transaction: t })
-        ]);
-      });
-    }
-  };
+  up: (queryInterface, Sequelize) => {
+    return queryInterface.addColumn('Products', 
+    'brand_id', { type: Sequelize.DataTypes.INTEGER }
+    );
+  },
+  down: (queryInterface, Sequelize) => {
+    return queryInterface.removeColumn('Products', 
+    'brand_id', { type: Sequelize.DataTypes.INTEGER }
+    );
+  }
+};
