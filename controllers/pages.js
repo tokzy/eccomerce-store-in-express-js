@@ -1,8 +1,7 @@
-const {Category,Products} = require("../models");
+const {Category,Products,Brand} = require("../models");
 
 async function saveCategory() {
-let response = await Products.create({ category_id:15,status: true,name:"Men's Beaded Bracelet",
-price:4600.00,cover_image:"brace.jpg",weight:5.2,descriptions:"Men's Beaded Bracelet"});
+let response = await Brand.create({ name:"brand A"});
 return await response;
 }
 
