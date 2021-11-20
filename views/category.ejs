@@ -40,12 +40,16 @@
 </div>
 
 <div class="latest_product_inner">
-<div class="row">
+<div class="row">  
+    
+<!----======= Fetch All====================================-->
+<% if (typeof products === 'undefined') { %> 
+<% } else { %>    
 <% products.forEach(product => {%>    
 <div class="col-lg-4 col-md-6">
 <div class="single-product">
 <div class="product-img">
-<img class="card-img" src="img/product/<%= product.cover_image %>" alt="" />
+<img class="card-img" src="/img/product/<%= product.cover_image %>" alt="" />
 <div class="p_icon">
 <a href="#">
 <i class="ti-eye"></i>
@@ -76,10 +80,11 @@
 </div>
 </div>
 <% }) %>
-
+<% } %>
 </div>
 </div>
 </div>
+<!----======= Fetch All Ends====================================-->
 
 <div class="col-lg-3">
 <div class="left_sidebar_area">
@@ -91,7 +96,7 @@
 <ul class="list">
 <% categories.forEach((category) => { %>
 <li>
-<a href="category/<%= category.id %>"><%= category.name %></a>
+<a href="/category/<%= category.id %>"><%= category.name %></a>
 </li>
 <% })%>
 </ul>
@@ -106,7 +111,7 @@
 <ul class="list">
 <% brands.forEach(brand => {%>
 <li>
-<a href="brand/<%= brand.id %>"><%= brand.name %></a>
+<a href="/brand/<%= brand.id %>"><%= brand.name %></a>
 </li>
 <% })%>
 </ul>
