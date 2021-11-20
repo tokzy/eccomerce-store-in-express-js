@@ -1,7 +1,7 @@
-const {Category,Products,Brand} = require("../models");
+const {Category,Products,Brands} = require("../models");
 
 async function saveCategory() {
-let response = await Brand.create({ name:"brand A"});
+let response = await Brands.create({ name:"brand C"});
 return await response;
 }
 
