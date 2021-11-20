@@ -104,21 +104,11 @@
 </div>
 <div class="widgets_inner">
 <ul class="list">
+<% brands.forEach(brand => {%>
 <li>
-<a href="#">Apple</a>
+<a href="brand/<%= brand.id %>"><%= brand.name %></a>
 </li>
-<li>
-<a href="#">Asus</a>
-</li>
-<li class="active">
-<a href="#">Gionee</a>
-</li>
-<li>
-<a href="#">Micromax</a>
-</li>
-<li>
-<a href="#">Samsung</a>
-</li>
+<% })%>
 </ul>
 </div>
 </aside>

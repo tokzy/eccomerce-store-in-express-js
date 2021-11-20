@@ -8,21 +8,22 @@ return await response;
 async function shopContent() {
 let category = Category.findAll();
 let products = Products.findAll();
-let response = await Promise.all([category,products]);
+let brands = Brands.findAll();
+let response = await Promise.all([category,products,brands]);
 return await response;
 }
 
-exports.getHome =  function(req, res, next) {
+exports.getHome =  (req, res, next) => {
 res.render('index', { title: 'Express' });
 }
 
-exports.getCategory =  function(req, res, next) {
+exports.getCategory =  (req, res, next) => {
 return shopContent().then((values) => {
-res.render("category",{products:values[1],categories:values[0]});
+res.render("category",{products:values[1],categories:values[0],brands:values[2]});
 }).catch(e => console.log(e));    
 }
 
-exports.getContact =  function(req, res, next) {
+exports.getContact =  (req, res, next) => {
 return saveCategory().then(save => {
 res.render('contact'); 
 }).catch(e => console.log(e));    
