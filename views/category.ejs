@@ -41,7 +41,7 @@
 
 <div class="latest_product_inner">
 <div class="row">  
-    
+
 <!----======= Fetch All====================================-->
 <% if (typeof products === 'undefined') { %> 
 <% } else { %>    
@@ -51,7 +51,7 @@
 <div class="product-img">
 <img class="card-img" src="/img/product/<%= product.cover_image %>" alt="" />
 <div class="p_icon">
-<a href="#">
+<a href="/product/<%= product.id %>">
 <i class="ti-eye"></i>
 </a>
 <a href="#">

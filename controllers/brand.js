@@ -1,6 +1,5 @@
 const {Category,Products,Brands} = require("../models");
 
-
 async function fetchallProducts(id){
 let category = Category.findAll();
 let brands = Brands.findAll();  
