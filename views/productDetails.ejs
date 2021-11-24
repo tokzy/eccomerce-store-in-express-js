@@ -640,7 +640,7 @@ ullamco laboris nisi ut aliquip ex ea commodo
 </li>
 </ul>
 <p>Outstanding</p>
-<form class="row contact_form" method="post">
+<form class="row contact_form" action="/product/<%= product.id %>" method="post">
 <input type="hidden" name="_csrf" value="<%= csrfToken  %>">     
 <div class="col-md-12">
 <div class="form-group">

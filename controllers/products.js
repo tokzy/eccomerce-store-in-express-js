@@ -1,4 +1,6 @@
 const {Products,Category} = require("../models");
+const {reviewErrors} = require("../validators/productreview");
+const {isEmpty} = require("lodash");
 
 async function getProduct(pid) {
 try{    
@@ -29,6 +31,12 @@ res.render('productDetails',{product:values,productCat:result.name,csrfToken:req
 }
 
 exports.postReviews =  (req, res, next) => {
-console.log(req.body);
-    res.redirect("back");
+errors = {};
+reviewErrors(errors,req).then(errors => {
+if(!isEmpty(errors)){
+console.log(errors);
+}
+res.redirect("back");
+});
+
 }
