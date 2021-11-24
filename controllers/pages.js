@@ -14,7 +14,10 @@ return await response;
 }
 
 exports.getHome =  (req, res, next) => {
-res.render('index', { title: 'Express' });
+//const sess = req.session;
+//sess.username = 'testing session';
+//res.cookie("cookieName", 'my first cookie', {maxAge: 360000});
+res.render('index', { title: "title"});
 }
 
 exports.getCategory =  (req, res, next) => {

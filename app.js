@@ -3,9 +3,11 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
 var dotenv = require('dotenv');
 dotenv.config();
+var session = require("express-session");
+var redis = require('redis');
+var connectRedis = require('connect-redis');
 
 var indexRouter = require('./routes');
 var usersRouter = require('./routes/users');
@@ -21,6 +23,30 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+var RedisStore = connectRedis(session)
+var redisClient = redis.createClient({
+    host: process.env.redisHost,
+    port: process.env.redisPort
+})
+redisClient.on('error', function (err) {
+    console.log('Could not establish a connection with redis. ' + err);
+});
+redisClient.on('connect', function (err) {
+    console.log('Connected to redis successfully');
+});
+//Configure session middleware
+app.use(session({
+    store: new RedisStore({ client: redisClient }),
+    secret: process.env.redisSecret,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        secure: false, // if true only transmit cookie over https
+        httpOnly: false, // if true prevent client side JS from reading the cookie 
+        maxAge: Number(process.env.redisMaxage) // session max age in miliseconds
+    }
+}));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

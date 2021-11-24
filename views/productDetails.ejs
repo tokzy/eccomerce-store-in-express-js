@@ -98,18 +98,20 @@ alt="Third slide"
 <ul class="list">
 <li>
 <a class="active" href="#">
-<span>Category</span> : Household</a
->
+<span>Category</span> : <%= productCat %></a>
 </li>
 <li>
-<a href="#"> <span>Availibility</span> : In Stock</a>
+<a href="#"> <span>Availibility</span> : 
+<% if(product.stock_status == true){%>    
+In Stock
+<% }else{%>
+Out Of Stock
+<%}%>
+</a>
 </li>
 </ul>
 <p>
-Mill Oil is an innovative oil filled radiator with the most
-modern technology. If you are looking for something that can
-make your interior look awesome, and at the same time give you
-the pleasant warm feeling during the winter.
+<%= product.descriptions%>
 </p>
 <div class="product_count">
 <label for="qty">Quantity:</label>
@@ -397,13 +399,8 @@ ullamco laboris nisi ut aliquip ex ea commodo
 <div class="col-lg-6">
 <div class="review_box">
 <h4>Post a comment</h4>
-<form
-class="row contact_form"
-action="https://technext.github.io/eiser/contact_process.php"
-method="post"
-id="contactForm"
-novalidate="novalidate"
->
+<form class="row contact_form" action="" method="post" id="contactForm" novalidate="novalidate">
+<input type="hidden" name="_csrf" value="<%= csrfToken %>">
 <div class="col-md-12">
 <div class="form-group">
 <input
@@ -643,67 +640,35 @@ ullamco laboris nisi ut aliquip ex ea commodo
 </li>
 </ul>
 <p>Outstanding</p>
-<form
-class="row contact_form"
-action="https://technext.github.io/eiser/contact_process.php"
-method="post"
-id="contactForm"
-novalidate="novalidate"
->
+<form class="row contact_form" method="post">
+<input type="hidden" name="_csrf" value="<%= csrfToken  %>">     
 <div class="col-md-12">
 <div class="form-group">
-<input
-type="text"
-class="form-control"
-id="name"
-name="name"
-placeholder="Your Full name"
-/>
+<input type="text" class="form-control" id="name" name="name" placeholder="Your Full name" />
 </div>
 </div>
 <div class="col-md-12">
 <div class="form-group">
-<input
-type="email"
-class="form-control"
-id="email"
-name="email"
-placeholder="Email Address"
-/>
+<input type="email" class="form-control" id="email" name="email" placeholder="Email Address" />
 </div>
 </div>
 <div class="col-md-12">
 <div class="form-group">
-<input
-type="text"
-class="form-control"
-id="number"
-name="number"
-placeholder="Phone Number"
-/>
+<input type="text" class="form-control" id="number" name="number" placeholder="Phone Number" />
 </div>
 </div>
 <div class="col-md-12">
 <div class="form-group">
-<textarea
-class="form-control"
-name="message"
-id="message"
-rows="1"
-placeholder="Review"
-></textarea>
+<textarea class="form-control" name="message" id="message" rows="1" placeholder="Review"></textarea>
 </div>
 </div>
 <div class="col-md-12 text-right">
-<button
-type="submit"
-value="submit"
-class="btn submit_btn"
->
+<button type="submit" name="submit" class="btn submit_btn">
 Submit Now
 </button>
 </div>
 </form>
+
 </div>
 </div>
 </div>
