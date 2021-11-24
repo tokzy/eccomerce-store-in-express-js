@@ -1,4 +1,4 @@
-const {Products,Category} = require("../models");
+const {Products,Category,Productreview} = require("../models");
 const {reviewErrors} = require("../validators/productreview");
 const {isEmpty} = require("lodash");
 
@@ -47,6 +47,7 @@ if(!isEmpty(errors)){
 renderProduct(errors,req,res,next);
 console.log(errors);
 }else{
+
 //res.redirect("back");
 }
 });
