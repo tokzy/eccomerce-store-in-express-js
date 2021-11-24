@@ -644,22 +644,37 @@ ullamco laboris nisi ut aliquip ex ea commodo
 <input type="hidden" name="_csrf" value="<%= csrfToken  %>">     
 <div class="col-md-12">
 <div class="form-group">
-<input type="text" class="form-control" id="name" name="name" placeholder="Your Full name" />
+<input type="text" class="form-control" id="name" name="name" placeholder="Your Full name" value="<%= formData.name %>"/>
+<% if(formerrors && formerrors.name){%>
+<span class="text-danger"><%= formerrors.name %></span>
+<%}%>
 </div>
 </div>
 <div class="col-md-12">
 <div class="form-group">
-<input type="email" class="form-control" id="email" name="email" placeholder="Email Address" />
+<input type="email" class="form-control" id="email" name="email" placeholder="Email Address" value="<%= formData.email %>"/>
+<% if(formerrors && formerrors.email){%>
+<span class="text-danger"><%= formerrors.email %></span>
+<%}%>
+<% if(formerrors && formerrors.email_format){%>
+<span class="text-danger"><%= formerrors.email_format %></span>
+<%}%>
 </div>
 </div>
 <div class="col-md-12">
 <div class="form-group">
-<input type="text" class="form-control" id="number" name="number" placeholder="Phone Number" />
+<input type="text" class="form-control" id="number" name="number" placeholder="Phone Number" value="<%= formData.number %>"/>
+<% if(formerrors && formerrors.phone){%>
+    <span class="text-danger"><%= formerrors.phone %></span>
+    <%}%>
 </div>
 </div>
 <div class="col-md-12">
 <div class="form-group">
-<textarea class="form-control" name="message" id="message" rows="1" placeholder="Review"></textarea>
+<textarea class="form-control" name="message" id="message" rows="1" placeholder="Review"><%= formData.message %></textarea>
+<% if(formerrors && formerrors.message){%>
+<span class="text-danger"><%= formerrors.message %></span>
+<%}%>
 </div>
 </div>
 <div class="col-md-12 text-right">

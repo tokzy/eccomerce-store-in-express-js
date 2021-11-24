@@ -25,18 +25,30 @@ exports.getProductDetails =  (req, res, next) => {
 return getProduct(pid).then(values => {
 var catid = values.category_id;
 getProductCategory(catid).then(result =>{ 
-res.render('productDetails',{product:values,productCat:result.name,csrfToken:req.csrfToken()});
+res.render('productDetails',{formData: {},formerrors:{},product:values,productCat:result.name,csrfToken:req.csrfToken()});
 }).catch(e => console.log(e)); 
 }).catch(e => console.log(e));    
+}
+
+const renderProduct = (errors,req,res,next) => {
+var pid = req.params.productId;   
+return getProduct(pid).then(values => {
+var catid = values.category_id;
+getProductCategory(catid).then(result =>{        
+res.render('productDetails',{formData: req.body,formerrors:errors,product:values,productCat:result.name,csrfToken:req.csrfToken()});
+}).catch(e => console.log(e)); 
+}).catch(e => console.log(e));      
 }
 
 exports.postReviews =  (req, res, next) => {
 errors = {};
 reviewErrors(errors,req).then(errors => {
 if(!isEmpty(errors)){
+renderProduct(errors,req,res,next);
 console.log(errors);
+}else{
+//res.redirect("back");
 }
-res.redirect("back");
 });
 
 }
