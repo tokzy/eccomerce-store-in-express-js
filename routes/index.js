@@ -5,7 +5,7 @@ const {getHome,getCategory,getContact} = require('../controllers/pages');
 const {getProductsByBrand} = require('../controllers/brand');
 const {getProductsByCategory} = require('../controllers/category');
 const {getProductDetails,postReviews} = require('../controllers/products');
-
+const {addProductToCart} = require('../controllers/cart');
 
 var router = express.Router();
 
@@ -16,6 +16,6 @@ router.get('/brand/:brandId',getProductsByBrand);
 router.get('/category/:catId',getProductsByCategory);
 router.get('/product/:productId',csrfProtection, getProductDetails);
 router.post('/product/:productId',csrfProtection,postReviews);
-router.post('/cart/product/add');
+router.post('/cart/product/add',addProductToCart);
 
 module.exports = router;
