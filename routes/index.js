@@ -16,5 +16,6 @@ router.get('/brand/:brandId',getProductsByBrand);
 router.get('/category/:catId',getProductsByCategory);
 router.get('/product/:productId',csrfProtection, getProductDetails);
 router.post('/product/:productId',csrfProtection,postReviews);
+router.post('/cart/product/add');
 
 module.exports = router;

@@ -8,6 +8,7 @@ dotenv.config();
 var session = require("express-session");
 var redis = require('redis');
 var connectRedis = require('connect-redis');
+var flash = require('express-flash');
 
 var indexRouter = require('./routes');
 var usersRouter = require('./routes/users');
@@ -47,6 +48,7 @@ app.use(session({
         maxAge: Number(process.env.redisMaxage) // session max age in miliseconds
     }
 }));
+app.use(flash());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

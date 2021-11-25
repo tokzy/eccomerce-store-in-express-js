@@ -1,5 +1,18 @@
 <%- include("templates/header"); -%>
 <!--================Home Banner Area =================-->
+<div class="cart-items" hidden>
+<div id="error" hidden></div>
+<div class="cart-item cart-column">
+<img class="cart-item-image" src="" >
+<span class="cart-id" hidden></span>
+<span class="cart-item-title"></span>
+</div>
+<span class="cart-price cart-column"></span>
+<div class="cart-quantity cart-column">
+<input class="cart-quantity-input" type="number" value="1" disabled>
+<button class="btn btn-danger" type="button" hidden><i class="fa fa-trash"></i></button>
+</div>
+</div>
 <section class="banner_area">
 <div class="banner_inner d-flex align-items-center">
 <div class="container">
@@ -11,8 +24,8 @@ class="banner_content d-md-flex justify-content-between align-items-center"
 <p>Very us move be blessed multiply night</p>
 </div>
 <div class="page_link">
-<a href="index.html">Home</a>
-<a href="single-product.html">Product Details</a>
+<a href="/">Home</a>
+<a href="">Product Details</a>
 </div>
 </div>
 </div>
@@ -88,12 +101,17 @@ alt="Third slide"
 </div>
 </div>
 <div class="col-lg-5 offset-lg-1">
+<input type="hidden" class="product_id" value="<%= product.id %>"/>
+<input type="hidden" class="product_name" value="<%= product.name %>"/>
+<img class="product_image2" src="/img/product/<%= product.cover_image %>"  hidden/>
 <div class="s_product_text">
 <h3><%= product.name %></h3>
 <% if(!!product.discount) { %>
 <h2>₦<%= (product.discount).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); %></h2>
+<input type="hidden" class="product_price" value="<%= product.discount %>"/>
 <%} else {%>
 <h2>₦<%= (product.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); %></h2>
+<input type="hidden" class="product_price" value="<%= product.price %>"/>
 <% } %>    
 <ul class="list">
 <li>
@@ -115,15 +133,7 @@ Out Of Stock
 </p>
 <div class="product_count">
 <label for="qty">Quantity:</label>
-<input
-type="text"
-name="qty"
-id="sst"
-maxlength="12"
-value="1"
-title="Quantity:"
-class="input-text qty"
-/>
+<input type="number" name="qty" id="sst" min="1" value="1" title="Quantity:" class="input-text qty" />
 <button
 onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
 class="increase items-count"
@@ -140,7 +150,7 @@ type="button"
 </button>
 </div>
 <div class="card_area">
-<a class="main_btn" href="#">Add to Cart</a>
+<a class="main_btn shop-item-button" href="#">Add to Cart</a>
 <a class="icon_btn" href="#">
 <i class="lnr lnr lnr-diamond"></i>
 </a>
@@ -400,7 +410,6 @@ ullamco laboris nisi ut aliquip ex ea commodo
 <div class="review_box">
 <h4>Post a comment</h4>
 <form class="row contact_form" action="" method="post" id="contactForm" novalidate="novalidate">
-<input type="hidden" name="_csrf" value="<%= csrfToken %>">
 <div class="col-md-12">
 <div class="form-group">
 <input
@@ -446,11 +455,7 @@ placeholder="Message"
 </div>
 </div>
 <div class="col-md-12 text-right">
-<button
-type="submit"
-value="submit"
-class="btn submit_btn"
->
+<button type="submit" value="submit" class="btn submit_btn">
 Submit Now
 </button>
 </div>
@@ -534,6 +539,8 @@ aria-labelledby="review-tab"
 </div>
 </div>
 <div class="review_list">
+<% if(productReviews){%>
+    <% productReviews.forEach((review)=>{%>
 <div class="review_item">
 <div class="media">
 <div class="d-flex">
@@ -543,7 +550,7 @@ alt=""
 />
 </div>
 <div class="media-body">
-<h4>Blake Ruiz</h4>
+<h4><%= review.name %></h4>
 <i class="fa fa-star"></i>
 <i class="fa fa-star"></i>
 <i class="fa fa-star"></i>
@@ -552,60 +559,10 @@ alt=""
 </div>
 </div>
 <p>
-Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-sed do eiusmod tempor incididunt ut labore et dolore magna
-aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-ullamco laboris nisi ut aliquip ex ea commodo
+<%= review.review_text %>
 </p>
 </div>
-<div class="review_item">
-<div class="media">
-<div class="d-flex">
-<img
-src="img/product/single-product/review-2.png"
-alt=""
-/>
-</div>
-<div class="media-body">
-<h4>Blake Ruiz</h4>
-<i class="fa fa-star"></i>
-<i class="fa fa-star"></i>
-<i class="fa fa-star"></i>
-<i class="fa fa-star"></i>
-<i class="fa fa-star"></i>
-</div>
-</div>
-<p>
-Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-sed do eiusmod tempor incididunt ut labore et dolore magna
-aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-ullamco laboris nisi ut aliquip ex ea commodo
-</p>
-</div>
-<div class="review_item">
-<div class="media">
-<div class="d-flex">
-<img
-src="img/product/single-product/review-3.png"
-alt=""
-/>
-</div>
-<div class="media-body">
-<h4>Blake Ruiz</h4>
-<i class="fa fa-star"></i>
-<i class="fa fa-star"></i>
-<i class="fa fa-star"></i>
-<i class="fa fa-star"></i>
-<i class="fa fa-star"></i>
-</div>
-</div>
-<p>
-Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-sed do eiusmod tempor incididunt ut labore et dolore magna
-aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-ullamco laboris nisi ut aliquip ex ea commodo
-</p>
-</div>
+<% }); }%>
 </div>
 </div>
 <div class="col-lg-6">
@@ -640,6 +597,12 @@ ullamco laboris nisi ut aliquip ex ea commodo
 </li>
 </ul>
 <p>Outstanding</p>
+<% if(messages.review){%>
+<div class="alert alert-success"><%= messages.review%></div>
+<script>
+    toastr.success('hello');
+</script>
+<%}%>
 <form class="row contact_form" action="/product/<%= product.id %>" method="post">
 <input type="hidden" name="_csrf" value="<%= csrfToken  %>">     
 <div class="col-md-12">
