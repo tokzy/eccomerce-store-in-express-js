@@ -1,5 +1,7 @@
 const { isEmpty } = require("lodash");
-const {Category,Products,Brands} = require("../models");
+const {Category,Products,Brands,Cart} = require("../models");
+const {CookiemanageAsync} = require('./pagecookie');
+
 
 async function saveCategory() {
 let response = await Brands.create({ name:"brand C"});
@@ -14,42 +16,42 @@ let response = await Promise.all([category,products,brands]);
 return await response;
 }
 
+exports.fetchcartCounts = async (req) => {
+var guest_id = req.cookies.cookieName;    
+try{    
+let count = await Cart.findAll({ where: { guest_id: guest_id }});
+return await count;
+}catch(e){
+console.log(e);
+}
+}
+
 exports.getHome =  (req, res, next) => {
 //const sess = req.session;
 //sess.username = 'testing session';
-
-if(isEmpty(req.cookies.cookieName)){
-var randomNumber = Math.random().toString();
-var rando = randomNumber.substring(2,randomNumber.length);    
-res.cookie("cookieName",rando, {maxAge: 360000});
-}
-
-res.render('index', { title: 'title'});
+return CookiemanageAsync(req,res).then(cookie =>{
+this.fetchcartCounts(req).then(count => {
+res.render('index', { cartTotal: count,ck:req.cookies.cookieName});
+}).catch(e => console.log(e));
+}).catch(e => console.log(e));
 }
 
 exports.getCategory =  (req, res, next) => {
-// set cookies if absent    
-if(isEmpty(req.cookies.cookieName)){
-var randomNumber = Math.random().toString();
-var rando = randomNumber.substring(2,randomNumber.length);    
-res.cookie("cookieName",rando, {maxAge: 360000});
-}
-// set cookie ends
-
-return shopContent().then((values) => {
-res.render("category",{products:values[1],categories:values[0],brands:values[2]});
+return CookiemanageAsync(req,res).then(cookie =>{
+shopContent().then((values) => {
+this.fetchcartCounts(req).then(count => {
+res.render("category",{cartTotal:count,products:values[1],categories:values[0],brands:values[2]});
+}).catch(e => console.log(e));
 }).catch(e => console.log(e));    
+}).catch(e => console.log(e));
 }
 
-exports.getContact =  (req, res, next) => {
-// set cookies if absent    
-if(isEmpty(req.cookies.cookieName)){
-    var randomNumber = Math.random().toString();
-    var rando = randomNumber.substring(2,randomNumber.length);    
-    res.cookie("cookieName",rando, {maxAge: 360000});
-    }
-    // set cookie ends    
-return saveCategory().then(save => {
-res.render('contact'); 
+exports.getContact =  (req, res, next) => { 
+return CookiemanageAsync(req,res).then(cookie =>{
+saveCategory().then(save => {
+this.fetchcartCounts(req).then(count => {
+res.render('contact',{cartTotal:count}); 
+}).catch(e => console.log(e));
 }).catch(e => console.log(e));    
+}).catch(e => console.log(e));
 }

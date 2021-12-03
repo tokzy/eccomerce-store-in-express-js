@@ -100,30 +100,12 @@ aria-expanded="false">Shop</a>
 </li>
 </ul>
 </li>
-<li class="nav-item submenu dropdown">
-<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-aria-expanded="false">Blog</a>
-<ul class="dropdown-menu">
 <li class="nav-item">
-<a class="nav-link" href="blog.html">Blog</a>
-</li>
-<li class="nav-item">
-<a class="nav-link" href="single-blog.html">Blog Details</a>
-</li>
-</ul>
-</li>
-<li class="nav-item submenu dropdown">
-<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-aria-expanded="false">Pages</a>
-<ul class="dropdown-menu">
-<li class="nav-item">
-<a class="nav-link" href="tracking.html">Tracking</a>
-</li>
-<li class="nav-item">
-<a class="nav-link" href="elements.html">Elements</a>
-</li>
-</ul>
-</li>
+    <a class="nav-link" href="/login">Login</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/signup">Signup</a>
+        </li>
 <li class="nav-item">
 <a class="nav-link" href="/contact">Contact</a>
 </li>
@@ -139,8 +121,14 @@ aria-expanded="false">Pages</a>
 </li>
 
 <li class="nav-item">
-<a href="#" class="icons">
-<i class="ti-shopping-cart"></i><span id="part" class="part badge badge-success" style="vertical-align:140%;font-size:10px;">0</span>
+<a href="/cart/list" class="icons">
+<i class="ti-shopping-cart"></i><span id="part" class="part badge badge-success" style="vertical-align:140%;font-size:10px;">
+<% if(!cartTotal){%>
+0    
+<%}else{%>
+<%= cartTotal.length %>
+<%}%>
+</span>
 </a>
 </li>
 

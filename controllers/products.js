@@ -1,6 +1,8 @@
-const {Products,Category,Productreview} = require("../models");
+const {Products,Category,Productreview,Cart} = require("../models");
 const {reviewErrors} = require("../validators/productreview");
 const {isEmpty} = require("lodash");
+const {CookiemanageAsync} = require('./pagecookie');
+
 
 async function getProduct(pid) {
 try{    
@@ -42,30 +44,48 @@ console.log(e);
 }
 }
 
+async function fetchCarts(req) {
+   var guest_id = req.cookies.cookieName;    
+    try{    
+        let count = await Cart.findAll({ where: { guest_id: guest_id }});
+        return await count;
+    }catch(e){
+    console.log(e);
+    }
+    }
+
 exports.getProductDetails =  (req, res, next) => {
- var pid = req.params.productId;   
-return getProduct(pid).then(values => {
+var pid = req.params.productId;   
+return CookiemanageAsync(req,res).then(cookie =>{
+getProduct(pid).then(values => {
 var catid = values.category_id;
 getProductCategory(catid).then(result =>{ 
-    getallReviews(pid).then(reviews =>{      
-        res.render('productDetails',{productReviews:reviews,formData: {},formerrors:{},product:values,productCat:result.name,csrfToken:req.csrfToken()});
+    getallReviews(pid).then(reviews => {      
+        fetchCarts(req).then(count => {
+            res.render('productDetails',{cartTotal:count,productReviews:reviews,formData: {},formerrors:{},product:values,productCat:result.name,csrfToken:req.csrfToken()});            
+        }).catch(e => console.log(e));
     }).catch(e => console.log(e));
 
 }).catch(e => console.log(e)); 
 }).catch(e => console.log(e));    
+}).catch(e => console.log(e));
 }
 
 const renderProduct = (errors,req,res,next) => {
 var pid = req.params.productId;   
-return getProduct(pid).then(values => {
+return CookiemanageAsync(req,res).then(cookie =>{
+getProduct(pid).then(values => {
 var catid = values.category_id;
 getProductCategory(catid).then(result =>{        
-    getallReviews(pid).then(reviews =>{  
-res.render('productDetails',{productReviews:reviews,formData: req.body,formerrors:errors,product:values,productCat:result.name,csrfToken:req.csrfToken()});
+    getallReviews(pid).then(reviews =>{ 
+        fetchCarts(req).then(count => { 
+res.render('productDetails',{cartTotal:count,productReviews:reviews,formData: req.body,formerrors:errors,product:values,productCat:result.name,csrfToken:req.csrfToken()});
+}).catch(e => console.log(e));
 }).catch(e => console.log(e));
 
 }).catch(e => console.log(e)); 
 }).catch(e => console.log(e));      
+}).catch(e => console.log(e));
 }
 
 exports.postReviews =  (req, res, next) => {
