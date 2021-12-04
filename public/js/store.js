@@ -160,64 +160,45 @@ hr.send(vars);
 //document.getElementById("flas").innerHTML = "<img src='images/progress-bar.gif'>";
 }
 
-function CartQuantityUpdate(id,price,qty){
+function CartQuantityUpdate(id,qty,price){    
 var hr = new XMLHttpRequest();
-var url = "CartUpdate.php";
+var url = "/cart/update";
 var vars = "id="+id+"&qty="+qty+"&price="+price;
-hr.open("POST", url, true);
+hr.open("PUT", url, true);
 hr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 hr.onreadystatechange = function() {
 if(hr.readyState == 4 && hr.status == 200) {
 var return_data = hr.responseText;
 if(return_data){
-document.getElementsByClassName('order_total_amount')[0].innerText = addCommas(return_data);
-document.getElementById("refresh_"+id).innerHTML = " ";
+document.getElementById('subtotal_'+id).innerHTML = '₦'+addCommas(return_data);
+document.getElementById("refresh2_"+id).innerHTML = " ";
 }
 }
 }
 hr.send(vars);
-document.getElementById("refresh_"+id).innerHTML = "<i class='fa fa-spinner fa-spin'></i>";
+document.getElementById("refresh2_"+id).innerHTML = "<i class='fa fa-spinner fa-spin'></i>";
 }
 
 function removeCartItem(id) {
 var hr = new XMLHttpRequest();
-var url = "CartItemDelete.php";
-var vars = "id="+id;
-hr.open("POST", url, true);
+var url = "/cart/delete";
+var vars = "productId="+id;
+hr.open("DELETE", url, true);
 hr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 hr.onreadystatechange = function() {
 if(hr.readyState == 4 && hr.status == 200) {
 var return_data = hr.responseText;
-if(return_data){
-$('.cart_'+id).remove();   
-document.getElementsByClassName('order_total_amount')[0].innerText = return_data;
+
+if(return_data == 'success'){
+$('#cart_'+id).remove();   
 document.getElementById("refresh_"+id).innerHTML = " ";
 }
+
 }
 }
 hr.send(vars);
 document.getElementById("refresh_"+id).innerHTML = "<i class='fa fa-spinner fa-spin'></i>";
 }
-
-function SelectCurrency(id) {
-var hr = new XMLHttpRequest();
-var url = "SelectCurrency.php";
-var vars = "id="+id;
-hr.open("POST", url, true);
-hr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-hr.onreadystatechange = function() {
-if(hr.readyState == 4 && hr.status == 200) {
-var return_data = hr.responseText;
-if(return_data == "success"){    
-document.getElementById("Cu_message").innerHTML = "<div class='alert alert-success'>Currency set successfully...</div>";
-setTimeout(function(){location.reload()},1000);
-}
-}
-}
-hr.send(vars);
-document.getElementById("Cu_message").innerHTML = "<i class='fa fa-spinner fa-spin'></i>";
-}
-
 
 function CouponCode() {
 var hr = new XMLHttpRequest();

@@ -22,3 +22,12 @@ res.render('login',{cartTotal:count});
 }).catch(e => console.log(e));
 }).catch(e => console.log(e));
 }
+
+
+exports.Signup = (req,res,next) => {
+    return CookiemanageAsync(req,res).then(cookie => {    
+    fetchcartCounts(req).then(count =>{
+    res.render('signup',{cartTotal:count});
+    }).catch(e => console.log(e));
+    }).catch(e => console.log(e));
+    }
