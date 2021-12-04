@@ -5,14 +5,15 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var dotenv = require('dotenv');
 dotenv.config();
+var passport = require('passport');
 var session = require("express-session");
 var redis = require('redis');
 var connectRedis = require('connect-redis');
 var flash = require('express-flash');
-
 var indexRouter = require('./routes');
 var usersRouter = require('./routes/users');
 
+require('./passport_setup.js')(passport);
 var app = express();
 
 // view engine setup
@@ -36,6 +37,7 @@ redisClient.on('error', function (err) {
 redisClient.on('connect', function (err) {
     console.log('Connected to redis successfully');
 });
+app.use(passport.initialize());
 //Configure session middleware
 app.use(session({
     store: new RedisStore({ client: redisClient }),
