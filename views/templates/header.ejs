@@ -82,36 +82,27 @@ aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle 
 <li class="nav-item active">
 <a class="nav-link" href="/">Home</a>
 </li>
-<li class="nav-item submenu dropdown">
-<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-aria-expanded="false">Shop</a>
-<ul class="dropdown-menu">
+
 <li class="nav-item">
-<a class="nav-link" href="/category">Shop Category</a>
+<a class="nav-link" href="/category">Shop</a>
 </li>
-<li class="nav-item">
-<a class="nav-link" href="single-product.html">Product Details</a>
-</li>
-<li class="nav-item">
-<a class="nav-link" href="checkout.html">Product Checkout</a>
-</li>
-<li class="nav-item">
-<a class="nav-link" href="cart.html">Shopping Cart</a>
-</li>
-</ul>
-</li>
-<li class="nav-item">
-    <a class="nav-link" href="/login">Login</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="/signup">Signup</a>
-        </li>
 <li class="nav-item">
 <a class="nav-link" href="/contact">Contact</a>
 </li>
+<% if(authUser){%>
+<li class="nav-item">
+<a class="nav-link" href="/logout">Logout</a>
+</li>
+<%}else{%>
+<li class="nav-item">
+<a class="nav-link" href="/login">Login</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="/signup">Signup</a>
+</li>
+<%}%>
 </ul>
 </div>
-
 <div class="col-lg-5 pr-0">
 <ul class="nav navbar-nav navbar-right right_nav pull-right">
 <li class="nav-item">

@@ -6,15 +6,20 @@ const {getProductsByBrand} = require('../controllers/brand');
 const {getProductsByCategory} = require('../controllers/category');
 const {getProductDetails,postReviews} = require('../controllers/products');
 const {addProductToCart,CartView,updateItem,DeleteCartItem} = require('../controllers/cart');
-const {Login,Signup} = require('../controllers/auth');
-
+const {Login,Signup,registerUser,loginUser,logoutUser} = require('../controllers/auth');
+const {isLoggedin,notLoggedin} = require('../middleware/Auth');
 var router = express.Router();
+
 
 router.get('/', getHome);
 router.get('/category', getCategory);
 router.get('/contact', getContact);
-router.get('/login', Login);
-router.get('/signup', Signup);
+router.get('/login',notLoggedin,csrfProtection, Login);
+router.post('/login',csrfProtection, loginUser);
+router.get('/signup',notLoggedin,csrfProtection, Signup);
+router.post('/signup',csrfProtection,registerUser);
+router.get('/logout',logoutUser);
+router.post('/logout', logoutUser);
 router.get('/brand/:brandId',getProductsByBrand);
 router.get('/category/:catId',getProductsByCategory);
 router.get('/product/:productId',csrfProtection, getProductDetails);

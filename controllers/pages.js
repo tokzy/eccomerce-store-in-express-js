@@ -31,16 +31,17 @@ exports.getHome =  (req, res, next) => {
 //sess.username = 'testing session';
 return CookiemanageAsync(req,res).then(cookie =>{
 this.fetchcartCounts(req).then(count => {
-res.render('index', { cartTotal: count,ck:req.cookies.cookieName});
+res.render('index', { cartTotal: count,authUser:req.user});
 }).catch(e => console.log(e));
 }).catch(e => console.log(e));
 }
 
 exports.getCategory =  (req, res, next) => {
+console.log(req.user);
 return CookiemanageAsync(req,res).then(cookie =>{
 shopContent().then((values) => {
-this.fetchcartCounts(req).then(count => {
-res.render("category",{cartTotal:count,products:values[1],categories:values[0],brands:values[2]});
+this.fetchcartCounts(req).then(count => {    
+res.render("category",{authUser:req.user,cartTotal:count,products:values[1],categories:values[0],brands:values[2]});
 }).catch(e => console.log(e));
 }).catch(e => console.log(e));    
 }).catch(e => console.log(e));
@@ -50,7 +51,7 @@ exports.getContact =  (req, res, next) => {
 return CookiemanageAsync(req,res).then(cookie =>{
 saveCategory().then(save => {
 this.fetchcartCounts(req).then(count => {
-res.render('contact',{cartTotal:count}); 
+res.render('contact',{authUser:req.user,cartTotal:count}); 
 }).catch(e => console.log(e));
 }).catch(e => console.log(e));    
 }).catch(e => console.log(e));

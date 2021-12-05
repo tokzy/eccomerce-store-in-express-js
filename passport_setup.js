@@ -1,4 +1,4 @@
-const {User} = require("./models");
+const {Users} = require("./models");
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require("bcrypt");
 
@@ -13,7 +13,7 @@ module.exports = (passport) => {
       });
 
       passport.deserializeUser((id, done) => {
-       User.findOne({
+       Users.findOne({
            where:{
                id: id
            }
@@ -31,7 +31,7 @@ module.exports = (passport) => {
         passReqToCallback: true
       },
       (req,email, password, done) => {
-        User.findOne({
+        Users.findOne({
             where:{
                 email: email
             }
@@ -39,12 +39,14 @@ module.exports = (passport) => {
           if(user == null){
           req.flash("message","Incorrect Credentials")
           return done(null,false);
-          }else if(user.password || user.password == undefined){
+          }else if(user.password == null || user.password == undefined){
           req.flash("message","reset your password");
+          return done(null,false);
           }else if(!validPassword(user,password)){
-          req.flash("message","Invalid Credentials")
+          req.flash("message","Incorrect Credentials")
           return done(null,false);
           }
+          req.flash("message","success");
           return done(null,user);
          }).catch(err => {
           done(err, false);   

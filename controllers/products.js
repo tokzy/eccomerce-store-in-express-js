@@ -62,7 +62,8 @@ var catid = values.category_id;
 getProductCategory(catid).then(result =>{ 
     getallReviews(pid).then(reviews => {      
         fetchCarts(req).then(count => {
-            res.render('productDetails',{cartTotal:count,productReviews:reviews,formData: {},formerrors:{},product:values,productCat:result.name,csrfToken:req.csrfToken()});            
+            res.render('productDetails',{cartTotal:count,productReviews:reviews,formData: {},formerrors:{}
+            ,product:values,productCat:result.name,csrfToken:req.csrfToken(),authUser:req.user});            
         }).catch(e => console.log(e));
     }).catch(e => console.log(e));
 
@@ -79,7 +80,8 @@ var catid = values.category_id;
 getProductCategory(catid).then(result =>{        
     getallReviews(pid).then(reviews =>{ 
         fetchCarts(req).then(count => { 
-res.render('productDetails',{cartTotal:count,productReviews:reviews,formData: req.body,formerrors:errors,product:values,productCat:result.name,csrfToken:req.csrfToken()});
+res.render('productDetails',{cartTotal:count,productReviews:reviews,formData: req.body,formerrors:errors
+    ,product:values,productCat:result.name,csrfToken:req.csrfToken(),authUser:req.user});
 }).catch(e => console.log(e));
 }).catch(e => console.log(e));
 

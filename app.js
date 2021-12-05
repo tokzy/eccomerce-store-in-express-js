@@ -50,6 +50,7 @@ app.use(session({
         maxAge: Number(process.env.redisMaxage) // session max age in miliseconds
     }
 }));
+app.use(passport.session());
 app.use(flash());
 
 app.use('/', indexRouter);

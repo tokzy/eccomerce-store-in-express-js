@@ -76,7 +76,7 @@ res.send('success');
 exports.CartView =  (req, res, next) => {
 return fetchcartCounts(req).then(count => {
 fetchCartItems(count).then(items => {
-res.render('cart',{cartTotal:count,cartItems:items});
+res.render('cart',{authUser:req.user,cartTotal:count,cartItems:items});
 }).catch(e => console.log(e));  
 }).catch(e => console.log(e));
 }
