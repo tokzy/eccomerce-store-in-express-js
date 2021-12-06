@@ -6,6 +6,7 @@ const {getProductsByBrand} = require('../controllers/brand');
 const {getProductsByCategory} = require('../controllers/category');
 const {getProductDetails,postReviews} = require('../controllers/products');
 const {addProductToCart,CartView,updateItem,DeleteCartItem} = require('../controllers/cart');
+const {cartCheckout} = require('../controllers/checkout');
 const {Login,Signup,registerUser,loginUser,logoutUser} = require('../controllers/auth');
 const {isLoggedin,notLoggedin} = require('../middleware/Auth');
 var router = express.Router();
@@ -28,5 +29,7 @@ router.post('/cart/product/add',addProductToCart);
 router.get('/cart/list',CartView);
 router.put('/cart/update',updateItem);
 router.delete('/cart/delete',DeleteCartItem);
+router.get('/cart/checkout',isLoggedin,csrfProtection, cartCheckout);
+router.post('/cart/checkout',isLoggedin,csrfProtection, cartCheckout);
 
 module.exports = router;

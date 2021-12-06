@@ -1,7 +1,7 @@
-const {Users} = require("../models");
+const {Users,Cart} = require("../models");
 const {signupErrors} = require("../validators/signupvalidate");
 const {loginErrors} = require("../validators/loginvalidate");
-const {isEmpty} = require("lodash");
+const {isEmpty, update} = require("lodash");
 const {CookiemanageAsync} = require('./pagecookie');
 const {fetchcartCounts} = require('./pages');
 const passport = require('passport');
@@ -30,6 +30,31 @@ password: password
 return await create;
 }catch(e){
 console.log(e);   
+}
+}
+
+async function checkMergeCartItems(req){
+var guest = req.cookies.cookieName;    
+var authuser = req.user.id;
+var guestItems = await Cart.findAll({ where: { guest_id: guest }});
+var checkItems;
+try{
+var update;
+for(const guestItem of guestItems){
+checkItems = await Cart.count({ where: { product_id:guestItem.product_id,user_id: authuser }});    
+if(Number(checkItems) <= 0){  
+//update cart guestuser to authuser
+update = await Cart.update({ user_id: authuser, guest_id:null}, {
+    where: {
+      guest_id: guest,
+      product_id: guestItem.product_id
+    }
+  });    
+}   
+}
+return await update;
+}catch(e){
+console.log(e);
 }
 }
 
@@ -85,11 +110,19 @@ return loginErrors(errors,req).then(error => {
 if(!isEmpty(error)){
 rerenderLogin(req,res,error);    
 }else{
-passport.authenticate('local',{
-successRedirect: "/login",
-failureRedirect: "/login",
-failureFlash: true
-})(req,res,next);    
+passport.authenticate('local', function(err, user, info) {
+if (err) { return next(err); }
+if (!user) { return res.redirect('/login'); }
+
+req.logIn(user, (err) => {
+if (err) { return next(err); }
+checkMergeCartItems(req).then(merge =>{
+res.clearCookie('cookieName');
+return res.redirect('/category');
+}).catch(e => console.log(e));
+});
+})(req, res, next);
+
 }
 }).catch(e => console.log(e));    
 }
@@ -97,6 +130,5 @@ failureFlash: true
 exports.logoutUser = (req,res,next) => {
 req.logout();
 req.session.destroy();
-res.clearCookie('cookieName');
 res.redirect("/login");
 }

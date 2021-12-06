@@ -40,12 +40,13 @@ console.log(e);
 }    
 }
 
-async function fetchCartItems(itemsId){
+exports.fetchCartItems = async (itemsId) =>{
 let items = [];
 try{
 for(const itemid of itemsId){
 let item = await Products.findOne({ where: { id: itemid.product_id } });
 item['qty'] = itemid.qty;
+item['cartId'] = itemid.id;
 items.push(item);
 };
 return await items;
@@ -57,7 +58,7 @@ console.log(e);
 async function removeCartitem(req){
 var product_id = Number(req.body.productId);    
 try{
-let deleteItem = await Cart.destroy({ where: {product_id: product_id }  });
+let deleteItem = await Cart.destroy({ where: {id: product_id }  });
 return await deleteItem;
 }catch(e){
 console.log(e);   
@@ -90,7 +91,7 @@ res.send('success');
 
 exports.CartView =  (req, res, next) => {
 return fetchcartCounts(req).then(count => {
-fetchCartItems(count).then(items => {
+this.fetchCartItems(count).then(items => {
 res.render('cart',{authUser:req.user,cartTotal:count,cartItems:items});
 }).catch(e => console.log(e));  
 }).catch(e => console.log(e));
@@ -112,3 +113,5 @@ return updateCartitem(req).then(update => {
 res.send(`${total}`);
 }).catch(e => console.log(e)); 
 }
+
+

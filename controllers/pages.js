@@ -39,7 +39,6 @@ res.render('index', { cartTotal: count,authUser:req.user});
 }
 
 exports.getCategory =  (req, res, next) => {
-console.log(req.user);
 return CookiemanageAsync(req,res).then(cookie =>{
 shopContent().then((values) => {
 this.fetchcartCounts(req).then(count => {     
