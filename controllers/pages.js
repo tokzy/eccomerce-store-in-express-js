@@ -3,11 +3,6 @@ const {Category,Products,Brands,Cart} = require("../models");
 const {CookiemanageAsync} = require('./pagecookie');
 
 
-async function saveCategory() {
-let response = await Brands.create({ name:"brand C"});
-return await response;
-}
-
 async function shopContent() {
 let category = Category.findAll();
 let products = Products.findAll();
@@ -17,9 +12,16 @@ return await response;
 }
 
 exports.fetchcartCounts = async (req) => {
-var guest_id = req.cookies.cookieName;    
-try{    
-let count = await Cart.findAll({ where: { guest_id: guest_id }});
+var user;    
+var count;
+try{
+if(req.user){
+user = req.user.id;
+count = await Cart.findAll({ where: { user_id: user }});
+}else{
+user = req.cookies.cookieName;
+count = await Cart.findAll({ where: { guest_id: user }});
+}      
 return await count;
 }catch(e){
 console.log(e);
@@ -40,7 +42,7 @@ exports.getCategory =  (req, res, next) => {
 console.log(req.user);
 return CookiemanageAsync(req,res).then(cookie =>{
 shopContent().then((values) => {
-this.fetchcartCounts(req).then(count => {    
+this.fetchcartCounts(req).then(count => {     
 res.render("category",{authUser:req.user,cartTotal:count,products:values[1],categories:values[0],brands:values[2]});
 }).catch(e => console.log(e));
 }).catch(e => console.log(e));    
@@ -49,10 +51,8 @@ res.render("category",{authUser:req.user,cartTotal:count,products:values[1],cate
 
 exports.getContact =  (req, res, next) => { 
 return CookiemanageAsync(req,res).then(cookie =>{
-saveCategory().then(save => {
 this.fetchcartCounts(req).then(count => {
 res.render('contact',{authUser:req.user,cartTotal:count}); 
 }).catch(e => console.log(e));
 }).catch(e => console.log(e));    
-}).catch(e => console.log(e));
 }

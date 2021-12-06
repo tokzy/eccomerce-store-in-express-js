@@ -1,3 +1,4 @@
+const flash = require('express-flash');
 
 exports.isLoggedin = (req,res,next) => {
 if(req.user){
@@ -11,8 +12,8 @@ return
 }
 
 exports.notLoggedin = (req,res,next) => {
-if(req.user){
-res.redirect('category');        
+if(req.user){    
+res.redirect('/category');
 next()
 return
 }else{

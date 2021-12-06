@@ -1,6 +1,6 @@
 <%- include("templates/header"); -%>
 <style>
- .clearfix {padding:50px;}   
+.clearfix {padding:50px;}   
 </style>
 <!--================Home Banner Area =================-->
 <section class="banner_area">
@@ -31,12 +31,17 @@ class="banner_content d-md-flex justify-content-between align-items-center"
 <% if(messages.message == 'success'){%>
 <div class="alert alert-success">Login Succesful...</div>
 <script>
- setTimeout(() => {window.location ='/category'},1000);   
+setTimeout(() => {window.location ='/category'},1000);   
 </script>
 <%}else{%>
 <div class="alert alert-danger"><%= messages.message %></div>
 <%}%>
 <%}%>    
+<% if(authUser) {%>
+    <script>
+    window.location = "/category";    
+    </script>
+    <%}%>
 <form method="post" action="/login">
 <input type="hidden" name="_csrf" value="<%= csrfToken  %>">     
 <label>Email</label>  

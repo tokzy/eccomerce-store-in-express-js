@@ -2,7 +2,7 @@ const {Products,Category,Productreview,Cart} = require("../models");
 const {reviewErrors} = require("../validators/productreview");
 const {isEmpty} = require("lodash");
 const {CookiemanageAsync} = require('./pagecookie');
-
+const {fetchcartCounts} = require('./pages');
 
 async function getProduct(pid) {
 try{    
@@ -44,16 +44,6 @@ console.log(e);
 }
 }
 
-async function fetchCarts(req) {
-   var guest_id = req.cookies.cookieName;    
-    try{    
-        let count = await Cart.findAll({ where: { guest_id: guest_id }});
-        return await count;
-    }catch(e){
-    console.log(e);
-    }
-    }
-
 exports.getProductDetails =  (req, res, next) => {
 var pid = req.params.productId;   
 return CookiemanageAsync(req,res).then(cookie =>{
@@ -61,7 +51,7 @@ getProduct(pid).then(values => {
 var catid = values.category_id;
 getProductCategory(catid).then(result =>{ 
     getallReviews(pid).then(reviews => {      
-        fetchCarts(req).then(count => {
+        fetchcartCounts(req).then(count => {
             res.render('productDetails',{cartTotal:count,productReviews:reviews,formData: {},formerrors:{}
             ,product:values,productCat:result.name,csrfToken:req.csrfToken(),authUser:req.user});            
         }).catch(e => console.log(e));
@@ -79,7 +69,7 @@ getProduct(pid).then(values => {
 var catid = values.category_id;
 getProductCategory(catid).then(result =>{        
     getallReviews(pid).then(reviews =>{ 
-        fetchCarts(req).then(count => { 
+        fetchcartCounts(req).then(count => { 
 res.render('productDetails',{cartTotal:count,productReviews:reviews,formData: req.body,formerrors:errors
     ,product:values,productCat:result.name,csrfToken:req.csrfToken(),authUser:req.user});
 }).catch(e => console.log(e));

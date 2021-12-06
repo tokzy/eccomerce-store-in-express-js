@@ -8,6 +8,8 @@ const passport = require('passport');
 const bcrypt = require('bcrypt');
 const myPassport = require('../passport_setup')(passport);
 
+
+
 const generateHash = (password) => {
 return bcrypt.hashSync(password,bcrypt.genSaltSync(8),null);
 }
@@ -76,7 +78,6 @@ res.redirect('/signup');
 }
 }).catch(e => console.log(e));    
 }
-
 
 exports.loginUser = (req,res,next) => {
 let errors  = {};

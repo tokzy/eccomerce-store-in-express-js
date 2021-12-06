@@ -6,9 +6,16 @@ async function addToCart(req){
 var product_id = Number(req.body.productId);
 var qty = Number(req.body.qty);
 var price = Number(req.body.price);
-var guestid = req.cookies.cookieName;
+var user;
+var add;
 try{
-let add = await Cart.create({ product_id: product_id, qty:qty, price:price,guest_id: guestid });
+if(req.user){
+user = req.user.id;
+add = await Cart.create({ product_id: product_id, qty:qty, price:price,user_id: user });
+}else{
+user = req.cookies.cookieName;
+add = await Cart.create({ product_id: product_id, qty:qty, price:price,guest_id: user });
+}    
 return await add;
 }catch(e){
 console.log(e);  
@@ -17,8 +24,16 @@ console.log(e);
 
 async function countCart(req){
 var product_id = Number(req.body.productId);    
+var user;
+var count;
 try{
-let count = await Cart.count({ where: { product_id: product_id }});
+if(req.user){
+user = req.user.id;
+count = await Cart.count({ where: { product_id: product_id,user_id:user}});
+}else{
+user = req.cookies.cookieName;
+count = await Cart.count({ where: { product_id: product_id,guest_id:user }});
+}        
 return await count;
 }catch(e){
 console.log(e);   
