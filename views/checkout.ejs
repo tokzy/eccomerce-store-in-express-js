@@ -145,10 +145,14 @@ Store State / County, Store Postcode.
 </p>
 </div>
 <div class="creat_account">
-<input type="checkbox" id="f-option4" name="selector" />
+<input type="checkbox" id="f-option4" name="terms" />
 <label for="f-option4">I’ve read and accept the </label>
 <a href="#">terms & conditions*</a>
+<% if(formerrors.terms){%>
+<span class="text-danger"><%= formerrors.terms %></span>  
+<%}%>
 </div>
+<input type="hidden" name="total" value="<%= grandTotal %>" />
 <button type="submit" class="main_btn" style="width:100%;">Proceed to Paypal</button>
 </div>
 </div>
